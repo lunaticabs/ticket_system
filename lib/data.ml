@@ -22,10 +22,12 @@ let enlarge vec = {
     new_vec
 }
 
-
+(* add new value to vector, and return the new vector *)
 let rec push x vec =
-  if vec.index = vec.compacity then
+  if vec.index >= vec.compacity then
     push x (enlarge vec)
-  else
+  else begin
     vec.buffer.(vec.index) <- x;
     vec.index <- vec.index + 1;
+    vec
+  end
