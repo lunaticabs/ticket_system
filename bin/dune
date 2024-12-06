@@ -1,0 +1,4 @@
+(executable
+ (public_name ticket_system)
+ (name main)
+ (libraries ticket_system))
