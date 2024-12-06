@@ -24,7 +24,7 @@ let enlarge vec = {
 
 
 let rec push x vec =
-  if vec.index == vec.compacity then
+  if vec.index = vec.compacity then
     push x (enlarge vec)
   else
     vec.buffer.(vec.index) <- x;
