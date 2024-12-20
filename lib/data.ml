@@ -31,3 +31,8 @@ let rec push x vec =
     vec.index <- vec.index + 1;
     vec
   end
+
+let in_vmap f vec =
+  for i = 0 to vec.index - 1 do
+    Array.set vec.buffer i (f (Array.get vec.buffer i))
+  done

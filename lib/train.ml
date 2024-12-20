@@ -1,4 +1,4 @@
-(* open Core.Array *)
+open Ticket_system
 
 (* 定义车次信息的记录类型 *)
 type station_info = {
@@ -15,17 +15,19 @@ type train_info = {
   departure_time: string;
   ticket_price: float;
   is_operating: bool;
-  route: station_info list; (* 停靠站信息 *)
+  route: station_info Data.vector; (* 停靠站信息 *)
 }
 
 (* 定义高铁车次信息的存储 *)
-type train_system = train_info list
+type train_system = train_info Data.vector
 
-let add_train (system: train_system) (train: train_info) : train_system =
-  train :: system
+let add_train train system =
+  Data.push train system
 
-let stop_train (system: train_system) (train_id: string) : train_system =
-  List.map (fun t -> if t.train_id == train_id then { t with is_operating = false } else t) system
+let stop_train system train_id = Data.in_vmap (fun x ->
+  if x.train_id = train_id then x.is_operating = false) system
+
+  (* List.map (fun t -> if t.train_id == train_id then { t with is_operating = false } else t) system *)
 
 (* let find_train_by_id (system: train_system) (train_id: string) : train_info option =
   find_opt (fun t -> t.train_id = train_id) system
