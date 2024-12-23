@@ -1,5 +1,3 @@
-open Ticket_system
-
 (* 定义车次信息的记录类型 *)
 type station_info = {
   station_name: string;
@@ -24,14 +22,20 @@ type train_system = train_info Data.vector
 let add_train train system =
   Data.push train system
 
-let stop_train system train_id = Data.in_vmap (fun x ->
-  if x.train_id = train_id then x.is_operating = false) system
+let stop_train system train_id = Data.vmap_inplace (fun x ->
+  if x.train_id = train_id then {x with is_operating = false} else x)
+  system
 
-  (* List.map (fun t -> if t.train_id == train_id then { t with is_operating = false } else t) system *)
+let output_train train_info =
+  Printf.printf "id: %s\n%s to %s\n%s departs\nticket price: %f operating: %b"
+    train_info.train_id train_info.start_station train_info.end_station
+    train_info.departure_time train_info.ticket_price train_info.is_operating
 
-(* let find_train_by_id (system: train_system) (train_id: string) : train_info option =
-  find_opt (fun t -> t.train_id = train_id) system
+(* let rec find_train_by_id system train_id =
+  for i = 0 to system.index - 1 do
+    if system.(i).train_id = train_id then *)
 
+(*
 let find_train_by_start_end (system: train_system) (start: string) (end_: string) : train_info list =
   List.filter (fun t -> t.start_station = start && t.end_station = end_) system
 

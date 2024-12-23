@@ -32,7 +32,22 @@ let rec push x vec =
     vec
   end
 
-let in_vmap f vec =
+let vmap f vec =
+  if vec.index = 0 then {
+    compacity = 0;
+    index = 0;
+    buffer = [||];
+  } else begin
+    let r = create vec.compacity (f (vec.buffer.(0))) in
+    r.index <- vec.index;
+    for i = 0 to vec.index - 1 do
+      r.buffer.(i) <- (f (vec.buffer.(i)))
+    done;
+    r
+  end
+
+
+let vmap_inplace f vec =
   for i = 0 to vec.index - 1 do
     Array.set vec.buffer i (f (Array.get vec.buffer i))
   done
