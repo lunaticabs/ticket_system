@@ -17,14 +17,17 @@ type train_info = {
 }
 
 (* 定义高铁车次信息的存储 *)
-type train_system = train_info Data.vector
+type system = {
+  train_list: train_info Data.vector;
+  passenger_list: 'a . 'a;
+}
 
-let add_train train system =
-  Data.push train system
+let add_train system train_info =
+  Data.push train_info system.train_list
 
 let stop_train system train_id = Data.vmap_inplace (fun x ->
   if x.train_id = train_id then {x with is_operating = false} else x)
-  system
+  system.train_list
 
 let output_train train_info =
   Printf.printf "id: %s\n%s to %s\n%s departs\nticket price: %f operating: %b"

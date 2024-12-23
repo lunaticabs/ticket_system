@@ -46,7 +46,6 @@ let vmap f vec =
     r
   end
 
-
 let vmap_inplace f vec =
   for i = 0 to vec.index - 1 do
     Array.set vec.buffer i (f (Array.get vec.buffer i))
