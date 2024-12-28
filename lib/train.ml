@@ -13,7 +13,7 @@ type train_info = {
   departure_time: string;
   ticket_price: float;
   is_operating: bool;
-  route: station_info Data.vector; (* 停靠站信息 *)
+  route: station_info list; (* 停靠站信息 *)
 }
 
 (* 定义高铁车次信息的存储 *)
@@ -30,9 +30,55 @@ let stop_train system train_id = Data.vmap_inplace (fun x ->
   system.train_list
 
 let output_train train_info =
-  Printf.printf "id: %s\n%s to %s\n%s departs\nticket price: %f operating: %b"
-    train_info.train_id train_info.start_station train_info.end_station
-    train_info.departure_time train_info.ticket_price train_info.is_operating
+  Printf.printf "Train ID: %s\n" train_info.train_id;
+  Printf.printf "From: %s to %s\n" train_info.start_station train_info.end_station;
+  Printf.printf "Departure Time: %s\n" train_info.departure_time;
+  Printf.printf "Ticket Price: %.2f\n" train_info.ticket_price;
+  Printf.printf "Operating: %b\n" train_info.is_operating;
+
+  Printf.printf "Stops:\n";
+  List.iter (fun stop ->
+    Printf.printf "  Station: %s\n" stop.station_name;
+    Printf.printf "  Arrival Time: %s\n" stop.arrival_time;
+    Printf.printf "  Departure Time: %s\n" stop.departure_time;
+    Printf.printf "  Distance: %.2f km\n\n" stop.distance;
+  ) train_info.route
+  
+(* 解析单个车站信息 *)
+let parse_station_info lines =
+  let rec aux acc lines =
+    match lines with
+    | [] -> List.rev acc
+    | "station_name:" :: station_name :: "arrival_time:" :: arrival_time ::
+        "departure_time:" :: departure_time :: "distance:" :: distance :: rest ->
+        let distance_float = float_of_string distance in
+        let station = { station_name; arrival_time; departure_time; distance = distance_float } in
+        aux (station :: acc) rest
+    | _ -> aux acc (List.tl lines)  (* 跳过无效的行 *)
+  in
+  aux [] lines
+
+
+(* 解析火车信息 *)
+let parse_train_info filename =
+  let input_channel = open_in filename in
+  let rec aux acc =
+    try
+      let line = input_line input_channel in
+      let lines = ref [line] in
+      (* 读取所有相关信息 *)
+      while true do
+        let next_line = input_line input_channel in
+        lines := !lines @ [next_line]
+      done;
+      aux acc (* 递归解析 *)
+    with End_of_file -> 
+      close_in input_channel;
+      acc
+  in
+  aux []
+
+
 
 (* let rec find_train_by_id system train_id =
   for i = 0 to system.index - 1 do
