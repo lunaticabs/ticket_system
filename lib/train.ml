@@ -18,16 +18,25 @@ type train_info = {
 
 (* 定义高铁车次信息的存储 *)
 type system = {
-  train_list: train_info Data.vector;
+  train_list: train_info list;
   passenger_list: 'a . 'a;
 }
 
 let add_train system train_info =
-  Data.push train_info system.train_list
+  let updated_train_list = train_info :: system.train_list in
+  { system with train_list = updated_train_list }
 
-let stop_train system train_id = Data.vmap_inplace (fun x ->
-  if x.train_id = train_id then {x with is_operating = false} else x)
-  system.train_list
+let stop_train system train_id =
+  let updated_train_list =
+    List.map
+      (fun train ->
+         if train.train_id = train_id then
+           { train with is_operating = false }
+         else
+           train)
+      system.train_list
+  in
+  { system with train_list = updated_train_list }
 
 let output_train train_info =
   Printf.printf "Train ID: %s\n" train_info.train_id;
@@ -43,7 +52,7 @@ let output_train train_info =
     Printf.printf "  Departure Time: %s\n" stop.departure_time;
     Printf.printf "  Distance: %.2f km\n\n" stop.distance;
   ) train_info.route
-  
+
 (* 解析单个车站信息 *)
 let parse_station_info lines =
   let rec aux acc lines =
@@ -72,12 +81,11 @@ let parse_train_info filename =
         lines := !lines @ [next_line]
       done;
       aux acc (* 递归解析 *)
-    with End_of_file -> 
+    with End_of_file ->
       close_in input_channel;
       acc
   in
   aux []
-
 
 
 (* let rec find_train_by_id system train_id =

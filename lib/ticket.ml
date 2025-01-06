@@ -36,7 +36,7 @@ let cancel_ticket head condition current_time =
         if condition ticket then (
           let travel_time = (* 解析 travel_date 和 departure_time 并计算差值 *)
             (* 假设存在一个函数 `time_difference` 返回时间差，单位为小时 *)
-            time_difference current_time (ticket.travel_date ^ " " ^ ticket.departure_time) in
+            (*time_difference*) current_time (ticket.travel_date ^ " " ^ ticket.departure_time) in
           if travel_time >= 2.0 then (
             (* 免费退票 *)
             prev := !next;
@@ -63,7 +63,7 @@ let find_ticket head condition =
   aux head
 
 (* 查询余票 *)
-let available_tickets head travel_date train_id start_station end_station total_seats =
+let available_tickets head travel_date start_station end_station total_seats =
   let rec aux node count =
     match !node with
     | Empty -> total_seats - count
