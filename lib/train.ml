@@ -53,6 +53,9 @@ let output_train train_info =
     Printf.printf "  Distance: %.2f km\n\n" stop.distance;
   ) train_info.route
 
+let output_all_trains system =
+  List.iter output_train system.train_list
+  
 (* 解析单个车站信息 *)
 let parse_station_info lines =
   let rec aux acc lines =
@@ -86,11 +89,6 @@ let parse_train_info filename =
       acc
   in
   aux []
-
-let new_system = {
-  train_list = parse_train_info "data/train.txt";
-  passenger_list = [];
-}
 
 (* let rec find_train_by_id system train_id =
   for i = 0 to system.index - 1 do

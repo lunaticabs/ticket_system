@@ -32,6 +32,7 @@ let rec push x vec =
     vec
   end
 
+(* a map for vector, make it acts like a functor *)
 let vmap f vec =
   if vec.index = 0 then {
     compacity = 0;
@@ -46,6 +47,7 @@ let vmap f vec =
     r
   end
 
+(* map inplace version *)
 let vmap_inplace f vec =
   for i = 0 to vec.index - 1 do
     Array.set vec.buffer i (f (Array.get vec.buffer i))
