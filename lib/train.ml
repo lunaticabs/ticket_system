@@ -19,7 +19,7 @@ type train_info = {
 (* 定义高铁车次信息的存储 *)
 type system = {
   train_list: train_info list;
-  passenger_list: 'a . 'a;
+  passenger_list: Pasnger.passenger list;
 }
 
 let add_train system train_info =
@@ -87,6 +87,10 @@ let parse_train_info filename =
   in
   aux []
 
+let new_system = {
+  train_list = parse_train_info "data/train.txt";
+  passenger_list = [];
+}
 
 (* let rec find_train_by_id system train_id =
   for i = 0 to system.index - 1 do

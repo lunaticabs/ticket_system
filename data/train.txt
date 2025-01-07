@@ -1,0 +1,45 @@
+train_id: G1234
+start_station: Beijing
+end_station: Shanghai
+departure_time: 2024-12-28 09:00
+ticket_price: 350.00
+is_operating: true
+route:
+  station_name: Tianjin
+  arrival_time: 2024-12-28 09:45
+  departure_time: 2024-12-28 09:50
+  distance: 120.00
+  station_name: Nanjing
+  arrival_time: 2024-12-28 11:30
+  departure_time: 2024-12-28 11:35
+  distance: 300.00
+train_id: G1234
+start_station: Beijing
+end_station: Shanghai
+departure_time: 2024-12-28 09:00
+ticket_price: 350.00
+is_operating: true
+route:
+  station_name: Tianjin
+  arrival_time: 2024-12-28 09:45
+  departure_time: 2024-12-28 09:50
+  distance: 120.00
+  station_name: Nanjing
+  arrival_time: 2024-12-28 11:30
+  departure_time: 2024-12-28 11:35
+  distance: 300.00
+train_id: G1234
+start_station: Beijing
+end_station: Shanghai
+departure_time: 2024-12-28 09:00
+ticket_price: 350.00
+is_operating: true
+route:
+  station_name: Tianjin
+  arrival_time: 2024-12-28 09:45
+  departure_time: 2024-12-28 09:50
+  distance: 120.00
+  station_name: Nanjing
+  arrival_time: 2024-12-28 11:30
+  departure_time: 2024-12-28 11:35
+  distance: 300.00
