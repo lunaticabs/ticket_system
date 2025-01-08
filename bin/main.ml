@@ -27,8 +27,18 @@ let print_menu () =
   read_line ()
 
 (* 从文件加载火车信息 *)
-let load_trains_from_file filename =
-  read_train_info filename
+(* let load_trains_from_file filename =
+  let input_channel = open_in filename in
+  let rec read_lines acc =
+    try
+      let line = input_line input_channel in
+      read_lines (line :: acc)
+    with End_of_file ->
+      close_in input_channel;
+      List.rev acc
+  in
+  let lines = read_lines [] in
+  parse_train_info lines *)
 
 (* 添加列车交互逻辑 *)
 let add_train_interaction system =
@@ -106,12 +116,6 @@ let rec main_loop system =
       print_endline "Invalid choice, please try again.";
       main_loop system
 
-(* 程序入口 *)
 let () =
-  (* 从文件加载火车数据 *)
-  let system_with_trains = { train_list = load_trains_from_file "data/train.txt"; passenger_list = [] } in
-  if Sys.file_exists "data/train.txt" then
-    print_endline "File found"
-  else
-    print_endline "File not found";
+  let system_with_trains = { train_list = Args.train_data; passenger_list = [] } in
   main_loop system_with_trains

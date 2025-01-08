@@ -37,3 +37,63 @@ station_name: Guangzhou
 arrival_time: 2025-01-10 14:00
 departure_time: 2025-01-10 14:30
 distance: 800
+
+train_id: T125
+start_station: Guangzhou
+end_station: Shenzhen
+departure_time: 2025-01-11 07:00
+ticket_price: 50.00
+is_operating: yes
+route:
+station_name: Guangzhou
+arrival_time: 2025-01-11 07:00
+departure_time: 2025-01-11 07:15
+distance: 0
+station_name: Dongguan
+arrival_time: 2025-01-11 07:45
+departure_time: 2025-01-11 08:00
+distance: 80
+station_name: Shenzhen
+arrival_time: 2025-01-11 08:30
+departure_time: 2025-01-11 08:45
+distance: 150
+
+train_id: T126
+start_station: Wuhan
+end_station: Changsha
+departure_time: 2025-01-12 10:00
+ticket_price: 100.00
+is_operating: yes
+route:
+station_name: Wuhan
+arrival_time: 2025-01-12 10:00
+departure_time: 2025-01-12 10:30
+distance: 0
+station_name: Yueyang
+arrival_time: 2025-01-12 11:30
+departure_time: 2025-01-12 11:45
+distance: 150
+station_name: Changsha
+arrival_time: 2025-01-12 12:30
+departure_time: 2025-01-12 12:45
+distance: 300
+
+train_id: T127
+start_station: Chengdu
+end_station: Chongqing
+departure_time: 2025-01-13 09:00
+ticket_price: 120.00
+is_operating: yes
+route:
+station_name: Chengdu
+arrival_time: 2025-01-13 09:00
+departure_time: 2025-01-13 09:30
+distance: 0
+station_name: Neijiang
+arrival_time: 2025-01-13 10:30
+departure_time: 2025-01-13 10:45
+distance: 150
+station_name: Chongqing
+arrival_time: 2025-01-13 12:00
+departure_time: 2025-01-13 12:30
+distance: 300
