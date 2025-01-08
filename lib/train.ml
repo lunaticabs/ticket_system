@@ -56,49 +56,57 @@ let output_train train_info =
 let output_all_trains system =
   List.iter output_train system.train_list
   
-(* 解析单个车站信息 *)
-let parse_station_info lines =
-  let rec aux acc lines =
-    match lines with
-    | [] -> List.rev acc
-    | "station_name:" :: station_name :: "arrival_time:" :: arrival_time ::
+  let parse_bool str =
+    match String.lowercase_ascii str with
+    | "yes" -> true
+    | "no" -> false
+    | _ -> failwith "Invalid boolean value"
+  
+  let parse_station_info lines =
+    let rec aux acc lines =
+      match lines with
+      | "station_name:" :: station_name :: "arrival_time:" :: arrival_time ::
         "departure_time:" :: departure_time :: "distance:" :: distance :: rest ->
-        let distance_float = float_of_string distance in
-        let station = { station_name; arrival_time; departure_time; distance = distance_float } in
-        aux (station :: acc) rest
-    | _ -> aux acc (List.tl lines)  (* 跳过无效的行 *)
-  in
-  aux [] lines
-
-
-(* 解析火车信息 *)
-let parse_train_info filename =
-  let input_channel = open_in filename in
-  let rec aux acc =
-    try
-      let line = input_line input_channel in
-      let lines = ref [line] in
-      (* 读取所有相关信息 *)
-      while true do
-        let next_line = input_line input_channel in
-        lines := !lines @ [next_line]
-      done;
-      aux acc (* 递归解析 *)
-    with End_of_file ->
-      close_in input_channel;
-      acc
-  in
-  aux []
-
-(* let rec find_train_by_id system train_id =
-  for i = 0 to system.index - 1 do
-    if system.(i).train_id = train_id then *)
-
-(*
-let find_train_by_start_end (system: train_system) (start: string) (end_: string) : train_info list =
-  List.filter (fun t -> t.start_station = start && t.end_station = end_) system
-
-let find_train_by_time (system: train_system) (time: string) : train_info list =
-  List.filter (fun t -> t.departure_time = time) system *)
+          let distance_float = float_of_string distance in
+          let station = { station_name; arrival_time; departure_time; distance = distance_float } in
+          aux (station :: acc) rest
+      | _ -> (List.rev acc, lines)
+    in
+    aux [] lines
+  
+  let parse_train_info lines =
+    let rec aux acc lines =
+      match lines with
+      | [] -> List.rev acc
+      | "train_id:" :: train_id :: "start_station:" :: start_station :: "end_station:" :: end_station ::
+        "departure_time:" :: departure_time :: "ticket_price:" :: ticket_price :: "is_operating:" :: is_operating ::
+        "route:" :: rest ->
+          let route, remaining_lines = parse_station_info rest in
+          let train = {
+            train_id;
+            start_station;
+            end_station;
+            departure_time;
+            ticket_price = float_of_string ticket_price;
+            is_operating = parse_bool is_operating;
+            route;
+          } in
+          aux (train :: acc) remaining_lines
+      | _ :: rest -> aux acc rest
+    in
+    aux [] lines
+  
+  let read_train_info filename =
+    let input_channel = open_in filename in
+    let rec read_lines acc =
+      try
+        let line = input_line input_channel in
+        read_lines (line :: acc)
+      with End_of_file ->
+        close_in input_channel;
+        List.rev acc
+    in
+    let lines = read_lines [] in
+    parse_train_info lines
 
 
