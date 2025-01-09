@@ -20,7 +20,7 @@ type train_info =
 
 (** 总系统 *)
 type system =
-  { train_list : train_info list
+  { train_list : train_info vector
   ; passenger_list : passenger list
   }
 

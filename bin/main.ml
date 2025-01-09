@@ -155,7 +155,7 @@ let rec main_loop system =
 
 let () =
   let system_with_trains =
-    { train_list = Args.train_data; passenger_list = Args.passenger_data }
+    { train_list = read_train_info "data/system.txt"; passenger_list = [] }
   in
   main_loop system_with_trains
 ;;
