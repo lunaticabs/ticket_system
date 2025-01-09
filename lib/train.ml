@@ -1,4 +1,5 @@
-(* 定义车次信息的记录类型 *)
+open Pasnger
+
 type station_info =
   { station_name : string
   ; arrival_time : string
@@ -6,6 +7,7 @@ type station_info =
   ; distance : float
   }
 
+(** 定义车次信息的记录类型 *)
 type train_info =
   { train_id : string
   ; start_station : string
@@ -16,17 +18,19 @@ type train_info =
   ; route : station_info list (* 停靠站信息 *)
   }
 
-(* 定义高铁车次信息的存储 *)
+(** 总系统 *)
 type system =
   { train_list : train_info list
-  ; passenger_list : Pasnger.passenger list
+  ; passenger_list : passenger list
   }
 
+(** 添加车次信息 *)
 let add_train system train_info =
   let updated_train_list = train_info :: system.train_list in
   { system with train_list = updated_train_list }
 ;;
 
+(** 停运车次 *)
 let stop_train system train_id =
   let updated_train_list =
     List.map
@@ -37,6 +41,7 @@ let stop_train system train_id =
   { system with train_list = updated_train_list }
 ;;
 
+(** 输出车次信息 *)
 let output_train train_info =
   Printf.printf "Train ID: %s\n" train_info.train_id;
   Printf.printf "From: %s to %s\n" train_info.start_station train_info.end_station;
@@ -53,6 +58,7 @@ let output_train train_info =
     train_info.route
 ;;
 
+(** 输出所有车次信息 *)
 let output_all_trains system = List.iter output_train system.train_list
 
 let parse_bool str =
@@ -62,6 +68,7 @@ let parse_bool str =
   | _ -> failwith "Invalid boolean value"
 ;;
 
+(** 解析车次信息 *)
 let parse_train_info lines =
   let rec aux acc lines =
     match lines with
@@ -115,6 +122,7 @@ let parse_train_info lines =
   aux [] lines
 ;;
 
+(** 读取车次信息 *)
 let read_train_info filename =
   let input_channel = open_in filename in
   let rec read_lines acc =

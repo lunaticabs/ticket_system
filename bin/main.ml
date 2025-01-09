@@ -1,6 +1,7 @@
 open Ticket_system_lib.Train
 open Ticket_system_lib.Pasnger
 
+(** type *)
 type menu_option =
   | AddTrain
   | ListTrains
